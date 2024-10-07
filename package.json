@@ -58,5 +58,5 @@
     "build": "rimraf lib/* && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "test": "vitest"
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
