@@ -1,13 +1,20 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import { createRule } from '../utils.js';
 import type { Type } from 'typescript';
-import { version } from '@typescript-eslint/parser';
 
 const isBooleanCoercion = (node: TSESTree.Identifier): boolean =>
   !!node.parent &&
   ((node.parent.type === TSESTree.AST_NODE_TYPES.UnaryExpression && node.parent.operator === '!') ||
-    (node.parent.type === TSESTree.AST_NODE_TYPES.IfStatement && node.parent.test === node) ||
-    (node.parent.type === TSESTree.AST_NODE_TYPES.ConditionalExpression && node.parent.test === node));
+    (node.parent.type === TSESTree.AST_NODE_TYPES.IfStatement && containsNode(node.parent.test, node)) ||
+    (node.parent.type === TSESTree.AST_NODE_TYPES.ConditionalExpression && containsNode(node.parent.test, node)) ||
+    (node.parent.type === TSESTree.AST_NODE_TYPES.LogicalExpression && containsNode(node.parent, node)));
+
+const containsNode = (parent: TSESTree.Node, node: TSESTree.Node): boolean => {
+  if (parent === node) return true;
+  if ('left' in parent && containsNode(parent.left, node)) return true;
+  if ('right' in parent && containsNode(parent.right, node)) return true;
+  return false;
+};
 
 const typeIsSignal = (type?: Type): Type | undefined => {
   if (type === undefined) return undefined;

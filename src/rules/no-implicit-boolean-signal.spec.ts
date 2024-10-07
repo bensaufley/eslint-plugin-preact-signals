@@ -173,6 +173,44 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
             },
           ],
         },
+        {
+          ...withImport(
+            'implicit conversion in chain of conditions in if',
+            `const foo = new Signal<string | null>(null);
+            const x = 'asdf';
+            const y = true;
+            if (x && foo && y) {
+              console.log('all are true');
+            }`,
+          ),
+          errors: [
+            {
+              messageId: 'implicitBooleanSignal',
+              line: 5,
+              endLine: 5,
+              column: 22,
+              endColumn: 25,
+            },
+          ],
+        },
+        {
+          ...withImport(
+            'implicit conversion in chain of conditions in ternary',
+            `const foo = new Signal<string | null>(null);
+            const x = 'asdf';
+            const y = true;
+            const z = x && foo && y ? 'bat' : 'baz';`,
+          ),
+          errors: [
+            {
+              messageId: 'implicitBooleanSignal',
+              line: 5,
+              endLine: 5,
+              column: 28,
+              endColumn: 31,
+            },
+          ],
+        },
       ],
     });
   });
