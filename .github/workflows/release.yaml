@@ -34,7 +34,7 @@ jobs:
 
       - name: Pack
         id: pack
-        run:
+        run: |
           filename="$(npm pack --dry-run --json | jq -r '.[0].filename')"
           npm pack
           echo "filename=$filename" >> $GITHUB_OUTPUT
