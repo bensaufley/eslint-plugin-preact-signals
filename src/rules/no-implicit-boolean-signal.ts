@@ -1,15 +1,13 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import { createRule } from '../utils.js';
 import type { Type } from 'typescript';
+import { version } from '@typescript-eslint/parser';
 
-function isBooleanCoercion(node: TSESTree.Identifier): boolean {
-  return (
-    node.parent &&
-    ((node.parent.type === TSESTree.AST_NODE_TYPES.UnaryExpression && node.parent.operator === '!') ||
-      (node.parent.type === TSESTree.AST_NODE_TYPES.IfStatement && node.parent.test === node) ||
-      (node.parent.type === TSESTree.AST_NODE_TYPES.ConditionalExpression && node.parent.test === node))
-  );
-}
+const isBooleanCoercion = (node: TSESTree.Identifier): boolean =>
+  !!node.parent &&
+  ((node.parent.type === TSESTree.AST_NODE_TYPES.UnaryExpression && node.parent.operator === '!') ||
+    (node.parent.type === TSESTree.AST_NODE_TYPES.IfStatement && node.parent.test === node) ||
+    (node.parent.type === TSESTree.AST_NODE_TYPES.ConditionalExpression && node.parent.test === node));
 
 const typeIsSignal = (type?: Type): Type | undefined => {
   if (type === undefined) return undefined;
@@ -57,7 +55,7 @@ export const rule = createRule({
     },
     docs: {
       description: 'Disallow implicit conversion of Signals to boolean',
-      recommended: true,
+      recommended: /^8\./.test(version) ? true : ('error' as any),
       requiresTypeChecking: true,
     },
   },

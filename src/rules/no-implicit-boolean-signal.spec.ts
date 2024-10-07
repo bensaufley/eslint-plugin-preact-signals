@@ -4,18 +4,21 @@ import { RuleTester } from '@typescript-eslint/rule-tester';
 
 import { rule } from './no-implicit-boolean-signal.js';
 
-const ruleTester = new RuleTester({
-  languageOptions: {
-    parser: parser,
-    parserOptions: {
-      projectService: {
-        allowDefaultProject: ['*.ts*'],
-        defaultProject: 'tsconfig.json',
-      },
-      tsconfigRootDir: path.join(__dirname, '../..'),
+const tsEsVersion = parser.version;
+const tsEsIs8 = /^8\./.test(tsEsVersion);
+
+const languageOpts = {
+  parser: tsEsIs8 ? parser : '@typescript-eslint/parser',
+  parserOptions: {
+    projectService: {
+      allowDefaultProject: ['*.ts*'],
+      defaultProject: 'tsconfig.json',
     },
+    tsconfigRootDir: path.join(__dirname, '../..'),
   },
-});
+};
+
+const ruleTester = new RuleTester(tsEsIs8 ? { languageOptions: languageOpts } : (languageOpts as any));
 
 ruleTester.run('no-implicit-boolean-signal', rule, {
   valid: [
