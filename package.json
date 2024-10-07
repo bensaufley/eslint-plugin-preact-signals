@@ -1,0 +1,59 @@
+{
+  "author": "Ben Saufley <contact@bensaufley.com>",
+  "bugs": {
+    "url": "https://github.com/bensaufley/eslint-plugin-preact-signals/issues"
+  },
+  "description": "TypeScript/ESLint plugin for validating use of @preact/signals",
+  "devDependencies": {
+    "@preact/signals": "^1.3.0",
+    "@preact/signals-core": "^1.8.0",
+    "@preact/signals-react": "^2.2.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@types/eslint": "^9.6.1",
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/parser": "^8.8.0",
+    "@typescript-eslint/rule-tester": "^8.8.0",
+    "@typescript-eslint/types": "^8.8.0",
+    "@typescript-eslint/utils": "^8.8.0",
+    "eslint": "^8 || ^9",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.24.0",
+    "tslib": "^2.7.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "homepage": "https://github.com/bensaufley/eslint-plugin-preact-signals#readme",
+  "keywords": [
+    "eslint",
+    "typescript",
+    "preact",
+    "signals"
+  ],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "type": "module",
+  "name": "eslint-plugin-preact-signals",
+  "peerDependencies": {
+    "@typescript-eslint/parser": "^8.8.0",
+    "@typescript-eslint/utils": "^8.8.0",
+    "eslint": "^8 || ^9",
+    "typescript": "^5.6.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bensaufley/eslint-plugin-preact-signals.git"
+  },
+  "scripts": {
+    "build": "rimraf lib/* && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "test": "vitest"
+  },
+  "version": "0.1.0"
+}
