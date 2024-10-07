@@ -1,4 +1,7 @@
 {
-  "extends": "./tsconfig.node.json",
+  "extends": "../../../tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
   "include": ["file.ts"]
 }

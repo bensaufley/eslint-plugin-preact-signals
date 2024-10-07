@@ -25,7 +25,7 @@ const ruleTester = new RuleTester(
     : ({
         parser: '@typescript-eslint/parser',
         parserOptions: {
-          project: 'tsconfig.json',
+          project: 'tsconfig.test.json',
           tsconfigRootDir: path.join(__dirname, '../test-support/fixture'),
         },
       } satisfies ClassicConfig.ParserOptions as any),
