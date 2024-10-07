@@ -2,7 +2,7 @@ import { ESLintUtils } from '@typescript-eslint/utils';
 
 export interface ExampleTypedLintingRuleDocs {
   description: string;
-  recommended?: boolean;
+  recommended?: 'error' | 'warn' | false;
   requiresTypeChecking?: boolean;
 }
 

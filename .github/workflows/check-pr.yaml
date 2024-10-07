@@ -10,6 +10,16 @@ jobs:
     permissions:
       contents: read
       checks: write
+    strategy:
+      matrix:
+        eslint-version:
+          - 9
+          - 8
+        tses-version:
+          - 8
+          - 7
+          - 6
+          - 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,7 +33,25 @@ jobs:
         with:
           node-version: ${{ steps.node-version.outputs.node-version }}
 
+      - name: Set Matrix Dependency Versions
+        id: set-matrix-versions
+        continue-on-error: true
+        run: |
+          npm i -D --package-lock-only \
+            @typescript-eslint/parser@${{ matrix.tses-version }} \
+            @typescript-eslint/rule-tester@${{ matrix.tses-version == 5 && 6 || matrix.tses-version }} \
+            @typescript-eslint/types@${{ matrix.tses-version }} \
+            @typescript-eslint/utils@${{ matrix.tses-version }} \
+            eslint@${{ matrix.eslint-version }}
+
       - name: Install Dependencies
+        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
         run: npm ci
 
-      - run: npm test
+      - name: Typecheck
+        if: ${{ steps.set-matrix-versions.outcome == 'success' && matrix.tses-version == 8 }}
+        run: npm run typecheck
+
+      - name: Run Tests
+        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
+        run: npm test

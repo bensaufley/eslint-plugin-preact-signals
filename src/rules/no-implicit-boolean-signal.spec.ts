@@ -1,24 +1,35 @@
 import path from 'node:path';
 import parser from '@typescript-eslint/parser';
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import * as vitest from 'vitest';
-import { Signal } from '@preact/signals-core';
 
 import { rule } from './no-implicit-boolean-signal.js';
-import { describe } from 'node:test';
+import type { ClassicConfig, FlatConfig } from '@typescript-eslint/utils/ts-eslint';
 
-const ruleTester = new RuleTester({
-  languageOptions: {
-    parser: parser,
-    parserOptions: {
-      projectService: {
-        allowDefaultProject: ['*.ts*'],
-        defaultProject: 'tsconfig.json',
-      },
-      tsconfigRootDir: path.join(__dirname, '../..'),
-    },
-  },
-});
+const tsEsVersion = parser.version;
+const tsEsIs8 = /^8\./.test(tsEsVersion);
+
+const ruleTester = new RuleTester(
+  tsEsIs8
+    ? ({
+        languageOptions: {
+          parser,
+          parserOptions: {
+            projectService: {
+              allowDefaultProject: ['*.ts*'],
+              defaultProject: 'tsconfig.json',
+            },
+            tsconfigRootDir: path.join(__dirname, '../..'),
+          },
+        },
+      } satisfies FlatConfig.ParserOptions)
+    : ({
+        parser: '@typescript-eslint/parser',
+        parserOptions: {
+          project: 'tsconfig.test.json',
+          tsconfigRootDir: path.join(__dirname, '../test-support/fixture'),
+        },
+      } satisfies ClassicConfig.ParserOptions as any),
+);
 
 ruleTester.run('no-implicit-boolean-signal', rule, {
   valid: [
