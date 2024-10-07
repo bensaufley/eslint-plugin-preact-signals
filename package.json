@@ -30,6 +30,9 @@
       "types": "./lib/index.d.ts"
     }
   },
+  "files": [
+    "/lib"
+  ],
   "homepage": "https://github.com/bensaufley/eslint-plugin-preact-signals#readme",
   "keywords": [
     "eslint",
@@ -42,10 +45,10 @@
   "type": "module",
   "name": "eslint-plugin-preact-signals",
   "peerDependencies": {
-    "@typescript-eslint/parser": "^8.8.0",
-    "@typescript-eslint/utils": "^8.8.0",
+    "@typescript-eslint/parser": "^8",
+    "@typescript-eslint/utils": "^8",
     "eslint": "^8 || ^9",
-    "typescript": "^5.6.2"
+    "typescript": "^5"
   },
   "repository": {
     "type": "git",
