@@ -32,7 +32,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - run: npm pack
+      - name: Pack
+        id: pack
+        run:
+          filename="$(npm pack --dry-run --json | jq -r '.[0].filename')"
+          npm pack
+          echo "filename=$filename" >> $GITHUB_OUTPUT
 
       - run: npm publish --provenance --access public
         env:
@@ -43,4 +48,4 @@ jobs:
         with:
           fail_on_unmatched_files: true
           files: |
-            eslint-plugin-preact-signals-${{ github.ref_name }}.tgz
+            ${{ steps.pack.outputs.filename}}
