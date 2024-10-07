@@ -3,22 +3,33 @@ import parser from '@typescript-eslint/parser';
 import { RuleTester } from '@typescript-eslint/rule-tester';
 
 import { rule } from './no-implicit-boolean-signal.js';
+import type { ClassicConfig, FlatConfig } from '@typescript-eslint/utils/ts-eslint';
 
 const tsEsVersion = parser.version;
 const tsEsIs8 = /^8\./.test(tsEsVersion);
 
-const languageOpts = {
-  parser: tsEsIs8 ? parser : '@typescript-eslint/parser',
-  parserOptions: {
-    projectService: {
-      allowDefaultProject: ['*.ts*'],
-      defaultProject: 'tsconfig.json',
-    },
-    tsconfigRootDir: path.join(__dirname, '../..'),
-  },
-};
-
-const ruleTester = new RuleTester(tsEsIs8 ? { languageOptions: languageOpts } : (languageOpts as any));
+const ruleTester = new RuleTester(
+  tsEsIs8
+    ? ({
+        languageOptions: {
+          parser,
+          parserOptions: {
+            projectService: {
+              allowDefaultProject: ['*.ts*'],
+              defaultProject: 'tsconfig.json',
+            },
+            tsconfigRootDir: path.join(__dirname, '../..'),
+          },
+        },
+      } satisfies FlatConfig.ParserOptions)
+    : ({
+        parser: '@typescript-eslint/parser',
+        parserOptions: {
+          project: 'tsconfig.json',
+          tsconfigRootDir: path.join(__dirname, '../..'),
+        },
+      } satisfies ClassicConfig.ParserOptions as any),
+);
 
 ruleTester.run('no-implicit-boolean-signal', rule, {
   valid: [
