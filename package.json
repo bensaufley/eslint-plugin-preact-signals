@@ -24,6 +24,7 @@
     "vitest": "^2.1.2"
   },
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./lib/index.mjs",
       "require": "./lib/index.cjs",
@@ -45,8 +46,8 @@
   "type": "module",
   "name": "eslint-plugin-preact-signals",
   "peerDependencies": {
-    "@typescript-eslint/parser": "^8",
-    "@typescript-eslint/utils": "^8",
+    "@typescript-eslint/parser": "^5",
+    "@typescript-eslint/utils": "^5",
     "eslint": "^8 || ^9",
     "typescript": "^5"
   },

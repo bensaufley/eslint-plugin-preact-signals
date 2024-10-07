@@ -1,11 +1,8 @@
 import path from 'node:path';
 import parser from '@typescript-eslint/parser';
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import * as vitest from 'vitest';
-import { Signal } from '@preact/signals-core';
 
 import { rule } from './no-implicit-boolean-signal.js';
-import { describe } from 'node:test';
 
 const ruleTester = new RuleTester({
   languageOptions: {

@@ -10,6 +10,16 @@ jobs:
     permissions:
       contents: read
       checks: write
+    strategy:
+      matrix:
+        eslint-version:
+          - 8
+          - 9
+        tses-version:
+          - 5
+          - 6
+          - 7
+          - 8
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,6 +32,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.node-version.outputs.node-version }}
+
+      - name: Set Matrix Dependency Versions
+        run: |
+          npm i -D --package-lock-only \
+            @typescript-eslint/parser@${{ matrix.tses-version }} \
+            @typescript-eslint/rule-tester@${{ matrix.tses-version }} \
+            @typescript-eslint/types@${{ matrix.tses-version }} \
+            @typescript-eslint/utils@${{ matrix.tses-version }} \
+            eslint@${{ matrix.eslint-version }}
 
       - name: Install Dependencies
         run: npm ci
