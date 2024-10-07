@@ -55,7 +55,7 @@ export const rule = createRule({
     },
     docs: {
       description: 'Disallow implicit conversion of Signals to boolean',
-      recommended: /^8\./.test(version) ? true : ('error' as any),
+      recommended: 'error',
       requiresTypeChecking: true,
     },
   },

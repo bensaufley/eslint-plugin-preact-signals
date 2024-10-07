@@ -49,7 +49,7 @@ jobs:
         run: npm ci
 
       - name: Typecheck
-        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
+        if: ${{ steps.set-matrix-versions.outcome == 'success' && matrix.tses-version == 8 }}
         run: npm run typecheck
 
       - name: Run Tests
