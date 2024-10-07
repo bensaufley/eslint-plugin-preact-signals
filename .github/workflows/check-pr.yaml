@@ -48,6 +48,10 @@ jobs:
         if: ${{ steps.set-matrix-versions.outcome == 'success' }}
         run: npm ci
 
+      - name: Typecheck
+        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
+        run: npm run typecheck
+
       - name: Run Tests
         if: ${{ steps.set-matrix-versions.outcome == 'success' }}
         run: npm test

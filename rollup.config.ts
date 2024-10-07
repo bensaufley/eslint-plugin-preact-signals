@@ -1,4 +1,4 @@
-import typescript from '@rollup/plugin-typescript';
+import tsPlugin from '@rollup/plugin-typescript';
 
 import { defineConfig } from 'rollup';
 
@@ -15,7 +15,7 @@ const config = defineConfig({
     },
   ],
   plugins: [
-    typescript({
+    tsPlugin({
       tsconfig: 'tsconfig.build.json',
     }),
   ],

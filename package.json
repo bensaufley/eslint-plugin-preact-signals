@@ -57,7 +57,8 @@
   },
   "scripts": {
     "build": "rimraf lib/* && rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "tsc --noEmit --project tsconfig.json"
   },
   "version": "0.1.3"
 }
