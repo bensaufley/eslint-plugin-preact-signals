@@ -144,6 +144,24 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
             },
           ],
         },
+        {
+          ...withImport(
+            'implicit conversion of ReadonlySignal',
+            `import { computed } from '@preact/${pkg}';
+            const foo = new Signal('bar');
+            const bat = computed(() => \`\${foo}\${foo}\`);
+            if (bat) console.log('bat is true');`,
+          ),
+          errors: [
+            {
+              messageId: 'implicitBooleanSignal',
+              line: 5,
+              endLine: 5,
+              column: 17,
+              endColumn: 20,
+            },
+          ],
+        },
       ],
     });
   });

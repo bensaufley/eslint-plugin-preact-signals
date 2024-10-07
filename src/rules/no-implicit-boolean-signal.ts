@@ -16,7 +16,7 @@ const typeIsSignal = (type?: Type): Type | undefined => {
   if (type.isUnionOrIntersection()) {
     return type.types.find((type) => typeIsSignal(type));
   }
-  return type.symbol?.getName() === 'Signal' ? type : undefined;
+  return ['Signal', 'ReadonlySignal'].includes(type.symbol?.getName()) ? type : undefined;
 };
 
 export const rule = createRule({
@@ -34,9 +34,8 @@ export const rule = createRule({
         if (!isBooleanCoercion(node)) return;
 
         const fromPreactPackages = signalType.symbol.getDeclarations()?.some((declaration) => {
-          const sourceFile = declaration.getSourceFile();
-          const importPath = sourceFile?.fileName;
-          return importPath?.includes('/@preact/signals');
+          const importPath = declaration.getSourceFile().fileName;
+          return importPath.includes('/@preact/signals');
         });
 
         // Includes signals-core, signals, signals-react
