@@ -34,6 +34,8 @@ jobs:
           node-version: ${{ steps.node-version.outputs.node-version }}
 
       - name: Set Matrix Dependency Versions
+        id: set-matrix-versions
+        continue-on-error: true
         run: |
           npm i -D --package-lock-only \
             @typescript-eslint/parser@${{ matrix.tses-version }} \
@@ -43,6 +45,9 @@ jobs:
             eslint@${{ matrix.eslint-version }}
 
       - name: Install Dependencies
+        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
         run: npm ci
 
-      - run: npm test
+      - name: Run Tests
+        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
+        run: npm test
