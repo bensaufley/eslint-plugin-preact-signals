@@ -39,7 +39,7 @@ jobs:
         run: |
           npm i -D --package-lock-only \
             @typescript-eslint/parser@${{ matrix.tses-version }} \
-            @typescript-eslint/rule-tester@${{ matrix.tses-version }} \
+            @typescript-eslint/rule-tester@${{ matrix.tses-version == 5 && 6 || matrix.tses-version }} \
             @typescript-eslint/types@${{ matrix.tses-version }} \
             @typescript-eslint/utils@${{ matrix.tses-version }} \
             eslint@${{ matrix.eslint-version }}
