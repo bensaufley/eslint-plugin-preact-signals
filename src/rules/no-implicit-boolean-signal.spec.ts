@@ -85,6 +85,22 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
             console.log('bar is null');
           }`,
         ),
+        {
+          ...withImport(
+            'nullish coalescing with nullable variable',
+            `const foo: Signal<string> | null = null;
+            const y = foo ?? 'default';`,
+          ),
+          options: [{ allowNullishCoalesce: 'nullish' }],
+        },
+        {
+          ...withImport(
+            'nullish coalescing with non-nullable variable but allow always',
+            `const foo: Signal<string> = new Signal('foo');
+            const y = foo ?? 'default';`,
+          ),
+          options: [{ allowNullishCoalesce: 'always' }],
+        },
       ],
       invalid: [
         {
@@ -208,6 +224,55 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
               endLine: 5,
               column: 28,
               endColumn: 31,
+            },
+          ],
+        },
+        {
+          ...withImport(
+            'nullish coalescing with nullable variable',
+            `const foo: Signal<string> = new Signal('foo');
+            const y = foo ?? 'default';`,
+          ),
+          options: [{ allowNullishCoalesce: 'nullish' }],
+          errors: [
+            {
+              messageId: 'implicitNullishCheck',
+              line: 3,
+              endLine: 3,
+              column: 23,
+              endColumn: 26,
+            },
+          ],
+        },
+        {
+          ...withImport(
+            'nullish coalescing with nullable Signal',
+            `const foo: Signal<string | null> = new Signal(null);
+            const y = foo ?? 'default';`,
+          ),
+          errors: [
+            {
+              messageId: 'implicitNullishCheck',
+              line: 3,
+              endLine: 3,
+              column: 23,
+              endColumn: 26,
+            },
+          ],
+        },
+        {
+          ...withImport(
+            'nullish coalescing with nullable Signal',
+            `const foo: Signal<string | null> | null = new Signal(null);
+            const y = foo ?? 'default';`,
+          ),
+          errors: [
+            {
+              messageId: 'implicitNullishCheck',
+              line: 3,
+              endLine: 3,
+              column: 23,
+              endColumn: 26,
             },
           ],
         },
