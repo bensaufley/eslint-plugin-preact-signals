@@ -60,5 +60,5 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit --project tsconfig.json"
   },
-  "version": "0.1.5"
+  "version": "0.1.6"
 }
