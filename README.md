@@ -13,5 +13,11 @@ reference the rules in your config.
 - `preact-signals/no-implicit-boolean-signal`: disallow the implicit coercion of
   variables that can contain a Signal to a boolean value. This is useful for
   preventing accidental omissions of `.value` or `.peek()`.
+  - Options:
+    - `allowNullishCoalesce`:
+      - `false`: disallow implicit coercion via `??`
+      - `nullish` (default): allow implicit coercion via `??` when the signal
+        variable may be null
+      - `always`: allow all uses of `??` with signals
 
 [preact signals]: https://preactjs.com/guide/v10/signals/
