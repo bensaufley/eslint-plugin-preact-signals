@@ -76,6 +76,7 @@ export const rule = createRule({
           context.report({
             node,
             messageId: 'implicitNullishCheck',
+            data: { name: node.name },
           });
           return;
         }
@@ -108,12 +109,11 @@ export const rule = createRule({
         },
       },
     ],
-    fixable: 'code',
-    type: 'suggestion',
+    type: 'problem',
     messages: {
       implicitBooleanSignal: 'Signal is implicitly converted to a boolean, which will always be true.',
       implicitNullishCheck:
-        'Signal is implicitly checked for nullishness. Because this may be confused with a boolean check, consider using ${0}.value === null instead.',
+        'Signal is implicitly checked for nullishness. Because this may be confused with a boolean check, consider using ${name} === null instead.',
     },
     docs: {
       description: 'Disallow implicit conversion of Signals to boolean',
