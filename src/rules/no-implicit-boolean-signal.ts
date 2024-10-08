@@ -104,7 +104,7 @@ export const rule = createRule({
                 enum: [false],
               },
             ],
-            default: false,
+            default: 'nullish',
           },
         },
       },
