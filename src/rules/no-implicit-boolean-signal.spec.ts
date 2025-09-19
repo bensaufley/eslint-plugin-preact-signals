@@ -91,7 +91,7 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
             `const foo: Signal<string> | null = null;
             const y = foo ?? 'default';`,
           ),
-          options: [{ allowNullishCoalesce: 'nullish' }],
+          options: [{ allowNullishCoalesce: 'onlyNullable' }],
         },
         {
           ...withImport(
@@ -233,7 +233,7 @@ ruleTester.run('no-implicit-boolean-signal', rule, {
             `const foo: Signal<string> = new Signal('foo');
             const y = foo ?? 'default';`,
           ),
-          options: [{ allowNullishCoalesce: 'nullish' }],
+          options: [{ allowNullishCoalesce: 'onlyNullable' }],
           errors: [
             {
               messageId: 'implicitNullishCheck',

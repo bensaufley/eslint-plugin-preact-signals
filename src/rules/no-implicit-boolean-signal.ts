@@ -1,6 +1,7 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
-import { createRule } from '../utils.js';
 import { TypeFlags, type Type } from 'typescript';
+
+import { createRule } from '../utils.js';
 
 const isBooleanCoercion = (node: TSESTree.Identifier): boolean | 'nullishCoalesce' => {
   if (!node.parent) return false;
@@ -61,7 +62,7 @@ export const rule = createRule({
         // Allow nullish coalescing with null or undefined
         if (boolCoercion === 'nullishCoalesce') {
           if (context.options[0]?.allowNullishCoalesce === 'always') return;
-          if (context.options[0]?.allowNullishCoalesce === 'nullish' && isNullable) return;
+          if (context.options[0]?.allowNullishCoalesce === 'onlyNullable' && isNullable) return;
         }
 
         const fromPreactPackages = signalType.symbol.getDeclarations()?.some((declaration) => {
@@ -97,14 +98,14 @@ export const rule = createRule({
             oneOf: [
               {
                 type: 'string',
-                enum: ['always', 'nullish'],
+                enum: ['always', 'onlyNullable'],
               },
               {
                 type: 'boolean',
                 enum: [false],
               },
             ],
-            default: 'nullish',
+            default: 'onlyNullable',
           },
         },
       },
@@ -124,7 +125,7 @@ export const rule = createRule({
   name: 'no-implicit-boolean-signal',
   defaultOptions: [
     {
-      allowNullishCoalesce: 'nullish' as 'always' | 'nullish' | false,
+      allowNullishCoalesce: 'onlyNullable' as 'always' | 'onlyNullable' | false,
     },
   ],
 });
