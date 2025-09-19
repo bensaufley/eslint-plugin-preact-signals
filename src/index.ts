@@ -1,10 +1,10 @@
 import type { FlatConfig } from '@typescript-eslint/utils/ts-eslint';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 import type packageJson from '../package.json';
 
 import { rules } from './rules/index.js';
-import { resolve } from 'node:path';
 
 const packagePath =
   typeof require === 'undefined' ? resolve(import.meta.dirname, '../package.json') : require.resolve('../package.json');
