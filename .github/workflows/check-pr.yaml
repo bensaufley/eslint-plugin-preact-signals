@@ -5,61 +5,9 @@ on:
 
 jobs:
   test:
-    name: 'Run Tests'
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/_check.yaml
     permissions:
       contents: read
       checks: write
-    strategy:
-      matrix:
-        eslint-version:
-          - 9
-          - 8
-        tses-version:
-          - 8
-          - 7
-          - 6
-          - 5
-        signals-version:
-          - 1
-          - 2
-        signals-react-version:
-          - 2
-          - 3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Get Node Version
-        id: node-version
-        run: echo "node-version=$(cat .node-version)" >> $GITHUB_OUTPUT
-
-      - name: Set Up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.node-version.outputs.node-version }}
-
-      - name: Set Matrix Dependency Versions
-        id: set-matrix-versions
-        continue-on-error: true
-        run: |
-          npm i -D --package-lock-only \
-            @typescript-eslint/parser@${{ matrix.tses-version }} \
-            @typescript-eslint/rule-tester@${{ matrix.tses-version == 5 && 6 || matrix.tses-version }} \
-            @typescript-eslint/types@${{ matrix.tses-version }} \
-            @typescript-eslint/utils@${{ matrix.tses-version }} \
-            eslint@${{ matrix.eslint-version }} \
-            @preact/signals@${{ matrix.signals-version }} \
-            @preact/signals-react@${{ matrix.signals-react-version }}
-
-      - name: Install Dependencies
-        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
-        run: npm ci
-
-      - name: Typecheck
-        if: ${{ steps.set-matrix-versions.outcome == 'success' && matrix.tses-version == 8 }}
-        run: npm run typecheck
-
-      - name: Run Tests
-        if: ${{ steps.set-matrix-versions.outcome == 'success' }}
-        run: npm test
+    with:
+      ref: ${{ github.ref }}
